@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>大数据需求占比</title>
+    <script src="/js/highcharts.js"></script>
+    <script src="/js/exporting.js"></script>
+    <script src="/js/series-label.js"></script>
+    <script src="/js/oldie.js"></script>
+    <script src="/js/highcharts-zh_CN.js"></script>
+    <script src="/js/jquery-3.4.1.min.js"></script>
+</head>
+<body>
+    <div id="container" style="max-width:800px;height:400px"></div>
+    <script>
+        $.getJSON("/pie/getCityData", function (result){
+            console.log(result)
+            data = result.data
+             Highcharts.chart('container', {
+                chart: {
+                    plotShadow: false,
+                    type: 'pie'
+                },
+                title: {
+                    text: '2020一线城市大数据需求占比'
+                },
+                tooltip: {
+                    pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+                },
+                plotOptions: {
+                    pie: {
+                        allowPointSelect: true,
+                        cursor: 'pointer',
+                        dataLabels: {
+                            enabled: true,
+                            format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+                            style: {
+                                color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                            }
+                        },
+                        showInLegend: true
+                    }
+                },
+                series: [{
+                    name: '占比',
+                    colorByPoint: true,
+                    data: data
+                }]
+             });
+        })
+    </script>
+</body>
+</html>
